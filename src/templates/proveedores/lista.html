@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block titulo %}Proveedores{% endblock %}
+
+{% block contenido %}
+  <div class="barra">
+    <div>
+      <h1>Proveedores</h1>
+      <p class="subtitulo" style="margin: 0">Opción 3 · Insertar, actualizar y borrar proveedores</p>
+    </div>
+    <a class="btn" href="{{ url_for('proveedores.nuevo') }}">+ Nuevo proveedor</a>
+  </div>
+
+  <div class="tabla-wrap">
+    {% if proveedores %}
+      <table>
+        <thead>
+          <tr>
+            <th>NIT</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in proveedores %}
+            <tr>
+              <td>{{ p.nit }}</td>
+              <td>{{ p.nombre }}</td>
+              <td>{{ p.direccion }}</td>
+              <td class="acciones">
+                <a class="btn sec peq" href="{{ url_for('proveedores.editar', nit=p.nit) }}">Editar</a>
+                <form class="inline" method="post" action="{{ url_for('proveedores.eliminar', nit=p.nit) }}">
+                  <button class="btn peligro peq" type="submit">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="vacio">No hay proveedores registrados.</div>
+    {% endif %}
+  </div>
+{% endblock %}

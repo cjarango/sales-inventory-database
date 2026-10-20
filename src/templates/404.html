@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block titulo %}No encontrado{% endblock %}
+{% block contenido %}
+<h1>Registro no encontrado</h1>
+<p class="subtitulo">La página o el registro que busca no existe.</p>
+<a class="btn" href="{{ url_for('index') }}">Volver al menú</a>
+{% endblock %}

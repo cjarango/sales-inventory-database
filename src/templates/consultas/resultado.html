@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block titulo %}Consulta {{ numero }}{% endblock %}
+
+{% block contenido %}
+  <div class="barra">
+    <div>
+      <h1>Consulta {{ numero }}</h1>
+      <p class="subtitulo" style="margin: 0">
+        {{ titulo }} · {{ filas | length }} resultado(s)
+      </p>
+    </div>
+    <a class="btn sec" href="{{ url_for('consultas.index') }}">← Volver a consultas</a>
+  </div>
+
+  <div class="tabla-wrap">
+    {% if filas %}
+      <table>
+        <thead>
+          <tr>
+            {% for clave, nombre in columnas %}
+              <th class="{{ 'num' if 'precio' in clave or clave in ('cantidad', 'total_pedidos') }}">
+                {{ nombre }}
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in filas %}
+            <tr>
+              {% for clave, nombre in columnas %}
+                {% if 'precio' in clave %}
+                  {# Objetivo 3: Presentación de valores monetarios sin decimales para COP #}
+                  <td class="num">{{ f[clave] | pesos }}</td>
+                {% elif clave in ('cantidad', 'total_pedidos') %}
+                  <td class="num">{{ f[clave] }}</td>
+                {% else %}
+                  <td>{{ f[clave] if f[clave] is not none else '—' }}</td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="vacio">La consulta no arrojó resultados.</div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block titulo %}Productos{% endblock %}
+
+{% block contenido %}
+  <div class="barra">
+    <div>
+      <h1>Productos</h1>
+      <p class="subtitulo" style="margin: 0">Opción 2 · Insertar, actualizar y borrar productos</p>
+    </div>
+    <a class="btn" href="{{ url_for('productos.nuevo') }}">+ Nuevo producto</a>
+  </div>
+
+  <div class="tabla-wrap">
+    {% if productos %}
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th class="num">Precio unitario</th>
+            <th>Proveedor</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in productos %}
+            <tr>
+              <td>{{ p.codigo }}</td>
+              <td>{{ p.nombre }}</td>
+              <td class="num">{{ p.precio_unitario | pesos }}</td>
+              <td>
+                {{ proveedores.get(p.nit_proveedor, p.nit_proveedor) }} 
+                <small style="color: #616e7c">({{ p.nit_proveedor }})</small>
+              </td>
+              <td class="acciones">
+                <a class="btn sec peq" href="{{ url_for('productos.editar', codigo=p.codigo) }}">Editar</a>
+                <form class="inline" method="post" action="{{ url_for('productos.eliminar', codigo=p.codigo) }}">
+                  <button class="btn peligro peq" type="submit">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="vacio">No hay productos registrados.</div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block titulo %}Pedidos{% endblock %}
+
+{% block contenido %}
+  <div class="barra">
+    <div>
+      <h1>Pedidos</h1>
+      <p class="subtitulo" style="margin: 0">Opción 4 · Un cliente realiza pedidos de productos</p>
+    </div>
+    <a class="btn" href="{{ url_for('pedidos.nuevo') }}">+ Nuevo pedido</a>
+  </div>
+
+  <div class="tabla-wrap">
+    {% if pedidos %}
+      <table>
+        <thead>
+          <tr>
+            <th>N.º</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th class="num">Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in pedidos | sort(attribute='id_pedido', reverse=true) %}
+            <tr>
+              <td>#{{ p.id_pedido }}</td>
+              <td>{{ p.fecha }}</td>
+              <td>
+                {{ p.nombre_cliente }} 
+                <small style="color: #616e7c">({{ p.id_cliente }})</small>
+              </td>
+              <td class="num">{{ totales.get(p.id_pedido) | pesos }}</td>
+              <td class="acciones">
+                <a class="btn sec peq" href="{{ url_for('pedidos.detalle', id_pedido=p.id_pedido) }}">Ver detalle</a>
+                {# Objetivo 2: Eliminado el evento onsubmit con confirm #}
+                <form class="inline" method="post" action="{{ url_for('pedidos.eliminar', id_pedido=p.id_pedido) }}">
+                  <button class="btn peligro peq" type="submit">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="vacio">No hay pedidos registrados.</div>
+    {% endif %}
+  </div>
+{% endblock %}

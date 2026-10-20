@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ 'Editar' if editar else 'Nuevo' }} cliente{% endblock %}
+
+{% block contenido %}
+  <h1>{{ 'Editar cliente' if editar else 'Nuevo cliente' }}</h1>
+  <p class="subtitulo">
+    {{ 'La identificación no se puede modificar.' if editar else 'Todos los campos son obligatorios.' }}
+  </p>
+
+  <form method="post" class="panel">
+    <div class="form-grid">
+      <div>
+        <label for="identificacion">Identificación</label>
+        <input 
+          id="identificacion" 
+          name="identificacion" 
+          value="{{ c.identificacion or '' }}" 
+          maxlength="20" 
+          required 
+          {{ 'readonly' if editar }}
+        >
+      </div>
+
+      <div>
+        <label for="nombres">Nombres</label>
+        <input 
+          id="nombres" 
+          name="nombres" 
+          value="{{ c.nombres or '' }}" 
+          maxlength="60" 
+          required
+        >
+      </div>
+
+      <div>
+        <label for="apellidos">Apellidos</label>
+        <input 
+          id="apellidos" 
+          name="apellidos" 
+          value="{{ c.apellidos or '' }}" 
+          maxlength="60" 
+          required
+        >
+      </div>
+
+      <div>
+        <label for="direccion">Dirección</label>
+        <input 
+          id="direccion" 
+          name="direccion" 
+          value="{{ c.direccion or '' }}" 
+          maxlength="100" 
+          required
+        >
+      </div>
+
+      <div>
+        <label for="fecha_nacimiento">Fecha de nacimiento</label>
+        {# Objetivo 1: Restricción de fecha de nacimiento máxima (hoy) #}
+        <input 
+          id="fecha_nacimiento" 
+          name="fecha_nacimiento" 
+          type="date" 
+          max="{{ hoy or '' }}" 
+          value="{{ c.fecha_nacimiento or '' }}" 
+          required
+        >
+      </div>
+    </div>
+
+    <div class="acciones-form">
+      <button class="btn" type="submit">
+        {{ 'Guardar cambios' if editar else 'Registrar cliente' }}
+      </button>
+      <a class="btn sec" href="{{ url_for('clientes.lista') }}">Cancelar</a>
+    </div>
+  </form>
+
+  <script>
+    const campoFecha = document.getElementById('fecha_nacimiento');
+    if (!campoFecha.max) {
+      campoFecha.max = new Date().toISOString().split('T')[0];
+    }
+  </script>
+{% endblock %}

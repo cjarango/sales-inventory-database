@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block titulo %}Consultas{% endblock %}
+
+{% block contenido %}
+  <h1>Consultas</h1>
+  <p class="subtitulo">Seleccione la consulta que desea ejecutar.</p>
+
+  <div class="menu">
+    {% for numero, titulo in consultas.items() %}
+      <a class="tarjeta" href="{{ url_for('consultas.ver', numero=numero) }}">
+        <div class="opcion">CONSULTA {{ numero }}</div>
+        <h2 style="font-size: 1rem; font-weight: normal;">{{ titulo }}</h2>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}

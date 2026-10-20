@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block titulo %}Pedido #{{ pedido.id_pedido }}{% endblock %}
+
+{% block contenido %}
+  <div class="barra">
+    <h1>Pedido #{{ pedido.id_pedido }}</h1>
+    <a class="btn sec" href="{{ url_for('pedidos.lista') }}">← Volver a pedidos</a>
+  </div>
+
+  <div class="panel resumen">
+    <div>
+      <span>Cliente</span>
+      {{ cliente.nombres }} {{ cliente.apellidos }}
+    </div>
+    <div>
+      <span>Identificación</span>
+      {{ pedido.id_cliente }}
+    </div>
+    <div>
+      <span>Fecha</span>
+      {{ pedido.fecha }}
+    </div>
+  </div>
+
+  <div class="tabla-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Producto</th>
+          <th class="num">Cantidad</th>
+          <th class="num">Precio de compra</th>
+          <th class="num">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in pedido.detalles %}
+          <tr>
+            <td>{{ d.codigo_producto }}</td>
+            <td>{{ nombres.get(d.codigo_producto, '—') }}</td>
+            <td class="num">{{ d.cantidad }}</td>
+            <td class="num">{{ d.precio_compra | pesos }}</td>
+            <td class="num">{{ (d.cantidad * d.precio_compra) | pesos }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="total-final">Total: {{ total | pesos }}</div>
+  </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ 'Editar' if editar else 'Nuevo' }} producto{% endblock %}
+
+{% block contenido %}
+  <h1>{{ 'Editar producto' if editar else 'Nuevo producto' }}</h1>
+  <p class="subtitulo">Cada producto es suministrado por un único proveedor.</p>
+
+  <form method="post" class="panel">
+    <div class="form-grid">
+      <div>
+        <label for="codigo">Código</label>
+        <input 
+          id="codigo" 
+          name="codigo" 
+          value="{{ p.codigo or '' }}" 
+          maxlength="20" 
+          required 
+          {{ 'readonly' if editar }}
+        >
+      </div>
+
+      <div>
+        <label for="nombre">Nombre</label>
+        <input 
+          id="nombre" 
+          name="nombre" 
+          value="{{ p.nombre or '' }}" 
+          maxlength="80" 
+          required
+        >
+      </div>
+
+      <div>
+        <label for="precio_unitario">Precio unitario (COP)</label>
+        <input 
+          id="precio_unitario" 
+          name="precio_unitario" 
+          type="number" 
+          min="0" 
+          step="1" 
+          placeholder="850000"
+          value="{{ p.precio_unitario or '' }}" 
+          required
+        >
+      </div>
+
+      <div>
+        <label for="nit_proveedor">Proveedor</label>
+        <select id="nit_proveedor" name="nit_proveedor" required>
+          <option value="">— Seleccione —</option>
+          {% for prov in proveedores %}
+            <option value="{{ prov.nit }}" {{ 'selected' if prov.nit == p.nit_proveedor }}>
+              {{ prov.nombre }} ({{ prov.nit }})
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="acciones-form">
+      <button class="btn" type="submit">
+        {{ 'Guardar cambios' if editar else 'Registrar producto' }}
+      </button>
+      <a class="btn sec" href="{{ url_for('productos.lista') }}">Cancelar</a>
+    </div>
+  </form>
+{% endblock %}

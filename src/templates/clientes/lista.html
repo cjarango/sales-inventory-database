@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block titulo %}Clientes{% endblock %}
+
+{% block contenido %}
+  <div class="barra">
+    <div>
+      <h1>Clientes</h1>
+      <p class="subtitulo" style="margin: 0">Opción 1 · Insertar, actualizar y borrar clientes</p>
+    </div>
+    <a class="btn" href="{{ url_for('clientes.nuevo') }}">+ Nuevo cliente</a>
+  </div>
+
+  <div class="tabla-wrap">
+    {% if clientes %}
+      <table>
+        <thead>
+          <tr>
+            <th>Identificación</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Dirección</th>
+            <th>Fecha de nacimiento</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in clientes %}
+            <tr>
+              <td>{{ c.identificacion }}</td>
+              <td>{{ c.nombres }}</td>
+              <td>{{ c.apellidos }}</td>
+              {# Objetivo 4: dirección -> direccion #}
+              <td>{{ c.direccion }}</td>
+              <td>{{ c.fecha_nacimiento }}</td>
+              <td class="acciones">
+                <a class="btn sec peq" href="{{ url_for('pedidos.nuevo', cliente=c.identificacion) }}">Nuevo Pedido</a>
+                <a class="btn sec peq" href="{{ url_for('clientes.editar', identificacion=c.identificacion) }}">Editar</a>
+                {# Objetivo 2: Eliminado el atributo onsubmit="return confirm(...)" #}
+                <form class="inline" method="post" action="{{ url_for('clientes.eliminar', identificacion=c.identificacion) }}">
+                  <button class="btn peligro peq" type="submit">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="vacio">No hay clientes registrados.</div>
+    {% endif %}
+  </div>
+{% endblock %}

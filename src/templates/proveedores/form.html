@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ 'Editar' if editar else 'Nuevo' }} proveedor{% endblock %}
+
+{% block contenido %}
+  <h1>{{ 'Editar proveedor' if editar else 'Nuevo proveedor' }}</h1>
+  <p class="subtitulo">
+    {{ 'El NIT no se puede modificar.' if editar else 'Todos los campos son obligatorios.' }}
+  </p>
+
+  <form method="post" class="panel">
+    <div class="form-grid">
+      <div>
+        <label for="nit">NIT</label>
+        <input 
+          id="nit" 
+          name="nit" 
+          value="{{ p.nit or '' }}" 
+          maxlength="20" 
+          required 
+          {{ 'readonly' if editar }}
+        >
+      </div>
+
+      <div>
+        <label for="nombre">Nombre</label>
+        <input 
+          id="nombre" 
+          name="nombre" 
+          value="{{ p.nombre or '' }}" 
+          maxlength="80" 
+          required
+        >
+      </div>
+
+      <div>
+        <label for="direccion">Dirección</label>
+        <input 
+          id="direccion" 
+          name="direccion" 
+          value="{{ p.direccion or '' }}" 
+          maxlength="100" 
+          required
+        >
+      </div>
+    </div>
+
+    <div class="acciones-form">
+      <button class="btn" type="submit">
+        {{ 'Guardar cambios' if editar else 'Registrar proveedor' }}
+      </button>
+      <a class="btn sec" href="{{ url_for('proveedores.lista') }}">Cancelar</a>
+    </div>
+  </form>
+{% endblock %}

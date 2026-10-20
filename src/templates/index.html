@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block titulo %}Menú principal{% endblock %}
+
+{% block contenido %}
+  <h1>Menú principal</h1>
+  <p class="subtitulo">Seleccione una opción.</p>
+
+  <div class="menu">
+    <a class="tarjeta" href="{{ url_for('clientes.lista') }}">
+      <div class="opcion">OPCIÓN 1</div>
+      <h2>Clientes</h2>
+      <p>Insertar, actualizar y borrar clientes.</p>
+      <div class="total">{{ totales.clientes }} registrado(s)</div>
+    </a>
+
+    <a class="tarjeta" href="{{ url_for('productos.lista') }}">
+      <div class="opcion">OPCIÓN 2</div>
+      <h2>Productos</h2>
+      <p>Insertar, actualizar y borrar productos.</p>
+      <div class="total">{{ totales.productos }} registrado(s)</div>
+    </a>
+
+    <a class="tarjeta" href="{{ url_for('proveedores.lista') }}">
+      <div class="opcion">OPCIÓN 3</div>
+      <h2>Proveedores</h2>
+      <p>Insertar, actualizar y borrar proveedores.</p>
+      <div class="total">{{ totales.proveedores }} registrado(s)</div>
+    </a>
+
+    <a class="tarjeta" href="{{ url_for('pedidos.lista') }}">
+      <div class="opcion">OPCIÓN 4</div>
+      <h2>Pedidos</h2>
+      <p>Un cliente realiza pedidos de productos.</p>
+      <div class="total">{{ totales.pedidos }} registrado(s)</div>
+    </a>
+
+    <a class="tarjeta" href="{{ url_for('consultas.index') }}">
+      <div class="opcion">OPCIÓN 5</div>
+      <h2>Consultas</h2>
+      <p>Las cuatro consultas del enunciado.</p>
+    </a>
+  </div>
+{% endblock %}
